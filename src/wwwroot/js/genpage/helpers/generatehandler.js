@@ -141,9 +141,11 @@ class GenerateHandler {
                 let imgHolder = images[data.batch_index];
                 let curImgElem = document.getElementById(this.imageId);
                 if (!curImgElem || autoLoadImagesElem.checked || curImgElem.dataset.batch_id == `${data.request_id}_${data.batch_index}`) {
-                    this.setCurrentImage(data.image, data.metadata, `${data.request_id}_${data.batch_index}`, false, true);
+                    let batchId = `${data.request_id}_${data.batch_index}`;
+                    this.setCurrentImage(data.image, data.metadata, batchId, false, true);
+                    //FIXME - image full view isn't updated, but cursor position is!
                     if (getUserSetting('AutoSwapImagesIncludesFullView') && imageFullView.isOpen()) {
-                        imageFullView.showImage(data.image, data.metadata);
+                        imageFullView.showImage(data.image, data.metadata, batchId);
                     }
                 }
                 let imgElem = imgHolder.div.querySelector('img');
@@ -198,6 +200,10 @@ class GenerateHandler {
                             curImgElem.src = data.gen_progress.preview;
                         }
                         this.setImageFor(imgHolder, data.gen_progress.preview);
+                    }
+                    if (data.gen_progress.preview && imageFullView.isOpen() && imageFullView.imgElement && imageFullView.batchId == thisBatchId)
+                    {
+                        imageFullView.imgElement.src = data.gen_progress.preview;
                     }
                 }
             }
