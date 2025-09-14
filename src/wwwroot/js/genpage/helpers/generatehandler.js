@@ -197,8 +197,9 @@ class GenerateHandler {
                     let curImgElem = document.getElementById(this.imageId);
                     if (data.gen_progress.preview && (!imgHolder.image || data.gen_progress.preview != imgHolder.image)) {
                         if (curImgElem && curImgElem.dataset.batch_id == thisBatchId) {
-                            curImgElem.src = data.gen_progress.preview;
-                            currentImgSrc = curImgElem.src;
+                            currentImgSrc = data.gen_progress.preview;
+                            curImgElem.src = currentImgSrc;
+                            curImgElem.dataset.src = currentImgSrc;
                         }
                         this.setImageFor(imgHolder, data.gen_progress.preview);
                     }

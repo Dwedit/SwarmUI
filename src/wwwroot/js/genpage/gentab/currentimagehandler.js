@@ -693,7 +693,9 @@ function setCurrentImage(src, metadata = '', batchId = '', previewGrow = false, 
     img.dataset.src = src;
     img.dataset.metadata = metadata || '{}';
     img.dataset.batch_id = batchId;
-    img.onclick = () => imageFullView.showImage(img.dataset.src, img.dataset.metadata, img.dataset.batch_id);
+    img.onclick = () => {
+        imageFullView.showImage(img.dataset.src, img.dataset.metadata, img.dataset.batch_id);
+    }
     let extrasWrapper = isReuse ? document.getElementById('current-image-extras-wrapper') : createDiv('current-image-extras-wrapper', 'current-image-extras-wrapper');
     extrasWrapper.innerHTML = '';
     let buttons = createDiv(null, 'current-image-buttons');
