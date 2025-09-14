@@ -198,6 +198,7 @@ class GenerateHandler {
                     if (data.gen_progress.preview && (!imgHolder.image || data.gen_progress.preview != imgHolder.image)) {
                         if (curImgElem && curImgElem.dataset.batch_id == thisBatchId) {
                             curImgElem.src = data.gen_progress.preview;
+                            currentImgSrc = curImgElem.src;
                         }
                         this.setImageFor(imgHolder, data.gen_progress.preview);
                     }

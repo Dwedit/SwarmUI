@@ -449,7 +449,7 @@ function shiftToNextImagePreview(next = true, expand = false) {
         divs[newIndex].querySelector('img').click();
         if (expand) {
             divs[newIndex].querySelector('img').click();
-            imageFullView.showImage(currentImgSrc, currentMetadataVal, divs[newIndex].dataset.batch_id);
+            imageFullView.showImage(currentImgSrc, currentMetadataVal, 'history');
             imageFullView.pasteState(expandedState);
         }
         return;
