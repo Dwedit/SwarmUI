@@ -198,7 +198,7 @@ class ImageFullViewHelper {
                 ${formatMetadata(metadata)}
             </div>
         </div>`;
-        this.imgElement = this.content.getElementById("imageview_popup_modal_img");
+        this.imgElement = document.getElementById("imageview_popup_modal_img");
         let subDiv = this.content.querySelector('.image_fullview_extra_buttons');
         for (let added of buttonsForImage(getImageFullSrc(src), src, metadata)) {
             if (added.href) {
@@ -578,7 +578,7 @@ function toggleStar(path, rawSrc) {
         if (imageFullView.isOpen() && imageFullView.currentSrc == rawSrc) {
             let oldMetadata = JSON.parse(imageFullView.currentMetadata);
             let newMetadata = { ...oldMetadata, is_starred: data.new_state };
-            imageFullView.showImage(rawSrc, JSON.stringify(newMetadata), imageFullView.batchId);
+            imageFullView.showImage(rawSrc, JSON.stringify(newMetadata), imageFullView.currentBatchId);
         }
     });
 }
