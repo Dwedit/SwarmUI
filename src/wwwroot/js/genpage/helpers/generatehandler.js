@@ -34,7 +34,7 @@ class GenerateHandler {
         if (!curImgElem || autoLoadImagesElem.checked || curImgElem.dataset.batch_id == batchId) {
             this.setCurrentImage(image, metadata, batchId, false, true);
         }
-        if ((getUserSetting('AutoSwapImagesIncludesFullView') || imageFullView.currentBatchId == batchId) && imageFullView.isOpen()) {
+        if (wantToSwapFullView()) {
             imageFullView.showImage(image, metadata, batchId);
         }
     }
