@@ -528,6 +528,9 @@ function shiftToNextImagePreview(next = true, expand = false, isArrows = false) 
     let isExpanded = imageFullView.isOpen();
     if (!isExpanded) {
         curImgElem = currentImageHelper.getCurrentImage();
+        if (!curImgElem) {
+            return false;
+        }
         batchId = curImgElem.dataset.batch_id;
     }
     else {
