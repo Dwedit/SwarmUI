@@ -528,10 +528,9 @@ function shiftToNextImagePreview(next = true, expand = false, isArrows = false) 
     let isExpanded = imageFullView.isOpen();
     if (!isExpanded) {
         curImgElem = currentImageHelper.getCurrentImage();
-        if (!curImgElem) {
-            return false;
+        if (curImgElem) {
+            batchId = curImgElem.dataset.batch_id;
         }
-        batchId = curImgElem.dataset.batch_id;
     }
     else {
         curImgElem = imageFullView.getImg();
@@ -1171,22 +1170,19 @@ function appendImage(container, imageSrc, batchId, textPreview, metadata = '', t
     return div;
 }
 
-function wantToSwapFullView() {
+function wantToSwapFullView(batchId) {
     if (!imageFullView.isOpen()) {
         return false;
     }
     let autoSwapSetting = getUserSetting('AutoSwapImagesIncludesFullView');
-    if (autoSwapSetting === 'true') {
+    if (autoSwapSetting === 'true' || imageFullView.currentBatchId == batchId) {
         return true;
     }
-    else if (autoSwapSetting === 'false' || autoSwapSetting === 'from_newest_only') {
-        //even when false, still need to auto-swap from unfinished image to finished version of the same image
+    else if (autoSwapSetting === 'from_newest_only') {
+        //If we are looking at the second image in the batch area, we want to swap to the new image
         let batch_area = getRequiredElementById('current_image_batch');
         let imgs = [...batch_area.getElementsByTagName('img')].filter(i => findParentOfClass(i, 'image-block-placeholder') == null);
         let limit = Math.min(imgs.length, 2);
-        if (autoSwapSetting === 'false') {
-            limit = Math.min(imgs.length, 1);
-        }
         for (i = 0; i < limit; i++) {
             let block = findParentOfClass(imgs[i], 'image-block');
             if (block.dataset.batch_id === imageFullView.currentBatchId) {
@@ -1207,7 +1203,7 @@ function gotImageResult(image, metadata, batchId) {
     if (!currentImageHelper.getCurrentImage() || autoLoadImagesElem.checked) {
         setCurrentImage(src, metadata, batchId, false, true);
     }
-    if (wantToSwapFullView()) {
+    if (wantToSwapFullView(batchId)) {
         imageFullView.showImage(src, metadata, batchId);
     }
     return batch_div;
