@@ -523,14 +523,24 @@ function copy_current_image_params() {
  * Returns true if the shift was successful, returns false if there was nothing to shift to.
  */
 function shiftToNextImagePreview(next = true, expand = false, isArrows = false) {
-    let curImgElem = currentImageHelper.getCurrentImage();
+    let batchId;
+    let curImgElem;
+    let isExpanded = imageFullView.isOpen();
+    if (!isExpanded) {
+        curImgElem = currentImageHelper.getCurrentImage();
+        batchId = curImgElem.dataset.batch_id;
+    }
+    else {
+        curImgElem = imageFullView.getImg();
+        batchId = imageFullView.currentBatchId;
+    }
     if (!curImgElem) {
         return false;
     }
     let doCycle = getUserSetting('ui.imageshiftingcycles', 'true');
     doCycle = doCycle == 'true' || (isArrows && doCycle == 'only_arrows');
-    let expandedState = imageFullView.isOpen() ? imageFullView.copyState() : {};
-    if (curImgElem.dataset.batch_id == 'history') {
+    let expandedState = isExpanded ? imageFullView.copyState() : {};
+    if (batchId == 'history') {
         let divs = [...lastHistoryImageDiv.parentElement.children].filter(div => div.classList.contains('image-block'));
         let index = divs.findIndex(div => div == lastHistoryImageDiv);
         if (index == -1) {
